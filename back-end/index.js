@@ -108,8 +108,61 @@ app.delete('/products/:id', (req, res) => {
         res.send('Product not found!');
     }
 })
-//------------------------------------------------------------
 
+//------------------------------------------------------------
+//! Define Route Handler
+
+app.get('/about/a', (req, res) => {
+    res.send('About Us');
+})
+
+app.get('/about/b', (req, res, next) => {
+    console.log('Request is received!');
+    next();
+}, (req, res) => {
+    res.send('About Us');
+})
+
+//? define multiple handler function
+const func_01 = (req, res, next) => {
+    console.log('Function 01');
+    next();
+}
+
+const func_02 = (req, res, next) => {
+    console.log('Function 02');
+    next();
+}
+
+const func_03 = (req, res) => {
+    console.log('Function 03');
+    res.send('END');
+}
+
+app.get('/about/c', [func_01, func_02, func_03]);
+
+//! Application ROUTE
+app.route('/book')
+    .get((req, res) => {
+        res.send('GET: Book');
+    })
+    .post((req, res) => {
+        res.send('POST: Book');
+    })
+    .put((req, res) => {
+        res.send('PUT: Book');
+    })
+    .delete((req, res) => {
+        res.send('DELETE: Book');
+    })
+
+//------------------------------------------------------------
+//! Express Router
+const dogRouter = require('./pkg/dog');
+app.use('/dog', dogRouter);
+
+
+//------------------------------------------------------------
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 })
