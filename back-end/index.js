@@ -4,10 +4,19 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+//! Set static resource
+app.use(express.static('public'));
+
 const port = 3000;
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
+})
+
+//? Pre-Proccessing APT
+app.all('/api', (req, res, next) => {
+    console.log(req.method + ' - Request is received!');
+    next();
 })
 
 app.get('/api', (req, res) => {
