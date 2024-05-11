@@ -9,8 +9,32 @@ app.use(express.static('public'));
 
 const port = 3000;
 
+//------------------------------------------------------------
+//! Define Middleware with validate cookie
+const cookieParser = require('cookie-parser');
+const cookiesValidator = require('./cookiesValidator');
+
+const validateCookies = async (req, res, next) => {
+    console.log("Cookies: ", req.cookies);
+    try {
+        await cookiesValidator(req.cookies);
+        next();
+    } catch (err) {
+        next(err);
+    }
+}
+
+app.use(cookieParser());
+app.use(validateCookies);
+
+//? Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.message);
+    res.status(400).send(err.message);
+})
+
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+    res.send('Hello World!');
 })
 
 //? Pre-Proccessing APT
@@ -160,6 +184,7 @@ app.route('/book')
 //! Express Router
 const dogRouter = require('./pkg/dog');
 app.use('/dog', dogRouter);
+
 
 
 //------------------------------------------------------------
