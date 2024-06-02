@@ -182,7 +182,7 @@ app.route('/book')
 
 //------------------------------------------------------------
 //! Express Router
-const dogRouter = require('../../pkg/dog');
+const dogRouter = require('./pkg/dog');
 app.use('/dog', dogRouter);
 
 
