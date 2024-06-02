@@ -16,7 +16,6 @@ router.use('/', (req, res, next) => {
     next();
 });
 
-//------------------------------------------------------------
 //? Define middleware for getting path /user/:id
 router.get('/:id', (req, res, next) => {
     if(req.params.id === '0'){
